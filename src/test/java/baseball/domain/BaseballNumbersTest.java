@@ -1,5 +1,6 @@
 package baseball.domain;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,8 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.*;
 
 class BaseballNumbersTest {
 
@@ -50,6 +50,38 @@ class BaseballNumbersTest {
                 Arguments.of(Arrays.asList(1,2,2)),
                 Arguments.of(Arrays.asList(4,8)),
                 Arguments.of(Arrays.asList(9,7,5,6))
+        );
+    }
+
+    @DisplayName("BaseballNumbers 매칭 테스트")
+    @Nested
+    class BaseballNumbersMatchTest {
+
+        private BaseballNumbers answerBaseballNumbers;
+
+        @BeforeEach
+        void setUp() {
+            answerBaseballNumbers = new BaseballNumbers(Arrays.asList(7, 1, 3));
+        }
+
+        @ParameterizedTest(name = "두 BaseballNumbers의 매칭 결과를 반환한다. [{index}]")
+        @MethodSource("baseball.domain.BaseballNumbersTest#provideMatchTestArguments")
+        void matchTest(final BaseballNumbers givenBaseballNumbers,
+                       final int expectedStrikeCount,
+                       final int expectedBallCount
+        ) {
+            final MatchResult matchResult = answerBaseballNumbers.match(givenBaseballNumbers);
+
+            assertThat(matchResult.getStrikeCount()).isEqualTo(expectedStrikeCount);
+            assertThat(matchResult.getBallCount()).isEqualTo(expectedBallCount);
+        }
+    }
+
+    private static Stream<Arguments> provideMatchTestArguments() {
+        return Stream.of(
+                Arguments.of(new BaseballNumbers(Arrays.asList(7, 3, 8)), 1, 1),
+                Arguments.of(new BaseballNumbers(Arrays.asList(4, 5, 6)), 0, 0),
+                Arguments.of(new BaseballNumbers(Arrays.asList(7, 1, 3)), 3, 0)
         );
     }
 
