@@ -1,6 +1,9 @@
 package baseball;
 
-import baseball.domain.*;
+import baseball.domain.BaseballNumbers;
+import baseball.domain.MatchResult;
+import baseball.domain.UniqueNumberListGenerator;
+import baseball.domain.UniqueRandomNumberListGenerator;
 import baseball.dto.BaseballNumbersInput;
 import baseball.dto.MatchResultOutput;
 import baseball.dto.RestartOrQuitCommandInput;
@@ -45,34 +48,28 @@ public class Application {
     private void run() {
         boolean isRunning = true;
         while (isRunning) {
-            startGame();
-            outputView.printGameOverMessage(NUMBER_COUNT);
+            playGame(createAnswer());
             outputView.printRestartOrQuitMessage(RESTART_COMMAND, QUIT_COMMAND);
             final RestartOrQuitCommandInput restartOrQuitCommandInput = inputView.readRestartOrQuitCommand();
             isRunning = restartOrQuitCommandInput.isRestart();
         }
     }
 
-    private void startGame() {
-        final BaseballGame baseballGame = createNewGame();
-        while (baseballGame.isPlaying()) {
-            play(baseballGame);
-        }
-    }
-
-    private BaseballGame createNewGame() {
+    private BaseballNumbers createAnswer() {
         final List<Integer> generatedNumberList = uniqueNumberListGenerator.generate(MINIMUM_NUMBER, MAXIMUM_NUMBER, NUMBER_COUNT);
-        final BaseballNumbers answer = new BaseballNumbers(generatedNumberList);
-        return new BaseballGame(answer);
+        return new BaseballNumbers(generatedNumberList);
     }
 
-    private void play(BaseballGame baseballGame) {
-        outputView.printBaseballNumbersInputMessage();
-        final BaseballNumbersInput baseballNumbersInput = inputView.readBaseballNumbers();
-        final MatchResult matchResult = baseballGame.match(baseballNumbersInput.getBaseballNumbers());
-        outputView.printMatchResult(new MatchResultOutput(matchResult));
-        if (matchResult.isAnswer()) {
-            baseballGame.quit();
+    private void playGame(final BaseballNumbers answer) {
+        boolean isPlaying = true;
+        while (isPlaying) {
+            outputView.printBaseballNumbersInputMessage();
+            final BaseballNumbersInput baseballNumbersInput = inputView.readBaseballNumbers();
+            final MatchResult matchResult = answer.match(baseballNumbersInput.getBaseballNumbers());
+            outputView.printMatchResult(new MatchResultOutput(matchResult));
+            isPlaying = !matchResult.isAnswer();
         }
+        outputView.printGameOverMessage(NUMBER_COUNT);
     }
+
 }
