@@ -21,4 +21,8 @@ public class MatchResult {
     public int getBallCount() {
         return ballCount;
     }
+
+    public boolean isAnswer() {
+        return strikeCount == BaseballNumbers.NUMBER_COUNT;
+    }
 }

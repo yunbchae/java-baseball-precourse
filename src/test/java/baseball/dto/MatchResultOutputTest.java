@@ -1,8 +1,7 @@
-package baseball.view.dto;
+package baseball.dto;
 
 import baseball.domain.MatchResult;
 import baseball.domain.MatchType;
-import baseball.dto.MatchResultOutput;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

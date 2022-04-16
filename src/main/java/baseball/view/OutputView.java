@@ -6,4 +6,6 @@ public interface OutputView {
     void printBaseballNumbersInputMessage();
 
     void printMatchResult(MatchResultOutput matchResultOutput);
+
+    void printGameOverMessage(int answerNumberCount);
 }

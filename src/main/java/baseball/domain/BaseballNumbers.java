@@ -4,7 +4,7 @@ import java.util.*;
 
 public class BaseballNumbers {
 
-    public static final int REQUIRED_NUMBER_COUNT = 3;
+    public static final int NUMBER_COUNT = 3;
     private static final int START_POSITION = 0;
     private static final String CANNOT_CREATE_MESSAGE_FORMAT = "BaseballNumbers를 생성할 수 없습니다. input numberList: %s";
 
@@ -18,14 +18,14 @@ public class BaseballNumbers {
     }
 
     private void validateNumberCount(final List<Integer> numberList) {
-        if (numberList == null || numberList.size() != REQUIRED_NUMBER_COUNT) {
+        if (numberList == null || numberList.size() != NUMBER_COUNT) {
             throw new IllegalArgumentException(String.format(CANNOT_CREATE_MESSAGE_FORMAT, numberList));
         }
     }
 
     private void validateUniqueNumber(final List<Integer> numberList) {
         final Set<Integer> numberSet = new HashSet<>(numberList);
-        if (numberSet.size() != REQUIRED_NUMBER_COUNT) {
+        if (numberSet.size() != NUMBER_COUNT) {
             throw new IllegalArgumentException(String.format(CANNOT_CREATE_MESSAGE_FORMAT, numberList));
         }
     }

@@ -1,7 +1,6 @@
-package baseball.view.dto;
+package baseball.dto;
 
 import baseball.domain.BaseballNumbers;
-import baseball.dto.BaseballNumbersInput;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
