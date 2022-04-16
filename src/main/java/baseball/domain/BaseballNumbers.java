@@ -1,9 +1,6 @@
 package baseball.domain;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class BaseballNumbers {
 
@@ -44,4 +41,16 @@ public class BaseballNumbers {
         return matchResult;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BaseballNumbers)) return false;
+        BaseballNumbers that = (BaseballNumbers) o;
+        return baseballNumberList.equals(that.baseballNumberList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(baseballNumberList);
+    }
 }
