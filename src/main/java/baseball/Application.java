@@ -3,6 +3,7 @@ package baseball;
 import baseball.domain.*;
 import baseball.dto.BaseballNumbersInput;
 import baseball.dto.MatchResultOutput;
+import baseball.dto.RestartOrQuitCommandInput;
 import baseball.view.ConsoleInputView;
 import baseball.view.InputView;
 import baseball.view.OutputView;
@@ -14,6 +15,8 @@ import java.util.Objects;
 import static baseball.domain.BaseballNumber.MAXIMUM_NUMBER;
 import static baseball.domain.BaseballNumber.MINIMUM_NUMBER;
 import static baseball.domain.BaseballNumbers.NUMBER_COUNT;
+import static baseball.dto.RestartOrQuitCommandInput.QUIT_COMMAND;
+import static baseball.dto.RestartOrQuitCommandInput.RESTART_COMMAND;
 
 public class Application {
 
@@ -36,7 +39,18 @@ public class Application {
         final UniqueNumberListGenerator uniqueNumberListGenerator = new UniqueRandomNumberListGenerator();
 
         final Application application = new Application(inputView, outputView, uniqueNumberListGenerator);
-        application.startGame();
+        application.run();
+    }
+
+    private void run() {
+        boolean isRunning = true;
+        while (isRunning) {
+            startGame();
+            outputView.printGameOverMessage(NUMBER_COUNT);
+            outputView.printRestartOrQuitMessage(RESTART_COMMAND, QUIT_COMMAND);
+            final RestartOrQuitCommandInput restartOrQuitCommandInput = inputView.readRestartOrQuitCommand();
+            isRunning = restartOrQuitCommandInput.isRestart();
+        }
     }
 
     private void startGame() {
@@ -44,7 +58,6 @@ public class Application {
         while (baseballGame.isPlaying()) {
             play(baseballGame);
         }
-        outputView.printGameOverMessage(NUMBER_COUNT);
     }
 
     private BaseballGame createNewGame() {

@@ -8,4 +8,6 @@ public interface OutputView {
     void printMatchResult(MatchResultOutput matchResultOutput);
 
     void printGameOverMessage(int answerNumberCount);
+
+    void printRestartOrQuitMessage(String restartCommand, String quitCommand);
 }
